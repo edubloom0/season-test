@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>사계검사: 감성으로 만나는 나의 사계절</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+        
+        :root {
+            --primary-color: #3498db;
+            --light-gray: #f8f9fa;
+            --dark-gray: #343a40;
+            --mid-gray: #495057;
+            --border-color: #dee2e6;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: var(--light-gray);
+            color: var(--dark-gray);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .container {
+            width: 100%;
+            max-width: 550px;
+            background-color: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+        h2 {
+            font-size: 1.3rem;
+            font-weight: 500;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+        p {
+            font-size: 1rem;
+            line-height: 1.75;
+            color: var(--mid-gray);
+            margin-bottom: 1rem;
+        }
+        .intro-text {
+            margin-bottom: 30px;
+        }
+        .intro-text p {
+            margin-bottom: 15px;
+        }
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            margin: 12px 0;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            background-color: #f1f3f5;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s, color 0.2s, transform 0.1s;
+            text-align: left;
+            line-height: 1.5;
+        }
+        .btn:hover {
+            background-color: #e9ecef;
+            border-color: #ced4da;
+        }
+        .btn:active {
+            transform: scale(0.98);
+        }
+        #start-btn {
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            border: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+        #start-btn:hover {
+            background-color: #2980b9;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background-color: #e9ecef;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        .progress {
+            width: 0;
+            height: 100%;
+            background-color: var(--primary-color);
+            transition: width 0.4s ease;
+        }
+        .page-number {
+            font-size: 1rem;
+            color: #868e96;
+            margin-bottom: 25px;
+            font-weight: 500;
+        }
+        .question-text {
+            font-size: 1.3rem;
+            font-weight: 500;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        .result-container {
+            padding: 10px;
+        }
+        .result-container h1 {
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+        }
+        .result-container h2 {
+            font-size: 1.2rem;
+            font-weight: 400;
+            color: var(--mid-gray);
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+        .result-container blockquote {
+            font-size: 1.1rem;
+            font-style: normal;
+            font-weight: 500;
+            color: var(--dark-gray);
+            border-left: 4px solid var(--primary-color);
+            padding-left: 20px;
+            margin: 30px 0;
+            text-align: left;
+            line-height: 1.7;
+        }
+        .result-section {
+            text-align: left;
+            margin-top: 40px;
+        }
+        .result-section h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-bottom: 2px solid #f1f3f5;
+            padding-bottom: 8px;
+            margin-bottom: 15px;
+        }
+        .result-section p {
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+        .hidden {
+            display: none;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+            .container {
+                padding: 25px 20px;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            }
+            h1 {
+                font-size: 1.6rem;
+            }
+            .question-text {
+                font-size: 1.2rem;
+            }
+            .btn {
+                padding: 14px;
+                font-size: 0.95rem;
+            }
+            .result-container h1 {
+                font-size: 2rem;
+            }
+            .result-container h2 {
+                font-size: 1.1rem;
+            }
+            .result-container blockquote {
+                padding-left: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Start Screen -->
+        <div id="start-screen">
+            <h1>사계검사: 감성으로 만나는 나의 사계절</h1>
+            <div class="intro-text">
+                <p>이 검사는 감정 기반의 성격 유형 테스트입니다.</p>
+                <p>16개의 질문을 통해 당신의 내면에 가장 가까운 계절 코드를 찾아드릴게요.</p>
+                <p>따뜻한 정서, 생기 있는 에너지, 고요한 사유, 균형 잡힌 이성 중 당신의 감정은 어디로 향하고 있을까요?</p>
+                <p>사계 디저트 브랜드의 추천 여행지와 차 한 잔, 그리고 감정 메시지도 함께 전해드립니다.</p>
+                <p>지금, 감정의 계절 속으로 천천히 걸어가보세요.</p>
+            </div>
+            <button id="start-btn" class="btn">시작하기</button>
+        </div>
+
+        <!-- Question Screen -->
+        <div id="question-screen" class="hidden">
+            <div class="progress-bar">
+                <div class="progress" id="progress"></div>
+            </div>
+            <div class="page-number" id="page-number"></div>
+            <h2 class="question-text" id="question-text"></h2>
+            <div id="answer-buttons"></div>
+        </div>
+
+        <!-- Result Screen -->
+        <div id="result-screen" class="hidden">
+            <!-- Spring Result -->
+            <div id="spring-result" class="result-container hidden">
+                <h1>🌸 당신의 사계코드는 봄매화</h1>
+                <h2>감성과 외향성이 어우러진, 따뜻한 분위기를 만드는 사람</h2>
+                <blockquote>당신의 마음은 늘 봄을 닮았어요. 사람들과 나누는 웃음 속에, 누구보다 따뜻한 마음이 담겨 있죠. 당신의 말 한마디, 시선 하나가 누군가의 하루를 녹입니다.</blockquote>
+                <div class="result-section">
+                    <h3>🔍 성격 분석</h3>
+                    <p><strong>성격적 특성:</strong> 따뜻한 감성을 지녔지만, 그것을 혼자 간직하지 않고 세상과 나누는 사람. 말보다 분위기로, 관심보다 진심으로 사람들과 연결되기를 원하는 타입입니다.</p>
+                    <p><strong>사고방식:</strong> 감정에 민감하고, 감각적 자극(음악, 향기, 자연)을 통해 감정과 에너지를 표현합니다.</p>
+                    <p><strong>관계 스타일:</strong> 관계에서 진심을 나누고, 자연스럽게 주변의 기분을 살피는 공감형입니다.</p>
+                    <p><strong>강점:</strong> 타인의 감정을 빠르게 읽고 공감, 분위기 메이커 역할, 감성적 표현 능력</p>
+                    <p><strong>주의점:</strong> 감정을 깊이 받아들여 자칫 지칠 수 있음, 외로움을 피하려 과도하게 활동할 수 있음</p>
+                </div>
+                <div class="result-section">
+                    <h3>🔑 감정 키워드</h3>
+                    <p>따뜻함 • 친밀감 • 에너지</p>
+                </div>
+                <div class="result-section">
+                    <h3>📍 닮은 여행지 (구미)</h3>
+                    <p><strong>금오천 벚꽃길</strong> – 도시를 가로지르는 벚꽃길, 그 환한 풍경은 당신이 만들어내는 따뜻한 분위기와 닮아 있어요.</p>
+                </div>
+                <div class="result-section">
+                    <h3>💬 감정 메시지</h3>
+                    <p>“네가 웃는 그 순간, 누군가의 하루가 환해져.”</p>
+                </div>
+            </div>
+            <!-- Summer Result -->
+            <div id="summer-result" class="result-container hidden">
+                <h1>☀️ 당신의 사계코드는 여름햇살</h1>
+                <h2>이성과 외향성이 어우러진, 세상을 움직이는 행동가</h2>
+                <blockquote>당신의 마음은 여름의 태양을 닮았어요. 뜨거운 열정으로 도전을 즐기고, 생각보다 행동으로 현실을 만들어가죠. 당신의 에너지가 주변의 세상을 움직입니다.</blockquote>
+                <div class="result-section">
+                    <h3>🔍 성격 분석</h3>
+                    <p><strong>성격적 특성:</strong> 넘치는 에너지와 현실적인 감각으로 주변을 이끄는 사람. 모호함보다는 명확함을, 생각보다는 결과를 중요하게 여기는 리더 타입입니다.</p>
+                    <p><strong>사고방식:</strong> 문제의 본질을 빠르게 파악하고, 효율적인 해결책을 찾아 즉시 행동으로 옮깁니다.</p>
+                    <p><strong>관계 스타일:</strong> 함께 목표를 향해 나아가는 동료 관계를 선호하며, 즐거운 활동을 통해 유대감을 형성합니다.</p>
+                    <p><strong>강점:</strong> 뛰어난 실행력과 추진력, 문제 해결 능력, 긍정적이고 활기찬 에너지</p>
+                    <p><strong>주의점:</strong> 과정보다 결과를 중시하여 주변 사람의 감정을 놓칠 수 있음, 휴식 없이 스스로를 몰아붙일 수 있음</p>
+                </div>
+                <div class="result-section">
+                    <h3>🔑 감정 키워드</h3>
+                    <p>열정 • 도전 • 성취</p>
+                </div>
+                <div class="result-section">
+                    <h3>📍 닮은 여행지 (구미)</h3>
+                    <p><strong>낙동강 체육공원</strong> – 끝없이 펼쳐진 공간에서 다양한 활동이 가능한 곳. 당신의 넘치는 에너지와 가능성을 닮았어요.</p>
+                </div>
+                <div class="result-section">
+                    <h3>💬 감정 메시지</h3>
+                    <p>“당신의 행동 하나가 세상을 바꾸는 시작이에요.”</p>
+                </div>
+            </div>
+            <!-- Autumn Result -->
+            <div id="autumn-result" class="result-container hidden">
+                <h1>🍂 당신의 사계코드는 가을단풍</h1>
+                <h2>감성과 내향성이 어우러진, 깊은 내면을 가진 사색가</h2>
+                <blockquote>당신의 마음은 고요한 가을 숲을 닮았어요. 화려함보다 내면의 목소리에 귀 기울이고, 혼자만의 시간 속에서 깊은 의미를 찾죠. 당신의 침묵은 그 어떤 말보다 깊은 울림을 줍니다.</blockquote>
+                <div class="result-section">
+                    <h3>🔍 성격 분석</h3>
+                    <p><strong>성격적 특성:</strong> 섬세한 감수성과 깊은 내면세계를 가진 사람. 세상의 소음에서 벗어나 자신의 감정과 생각에 집중하며 본질을 탐구하는 것을 좋아합니다.</p>
+                    <p><strong>사고방식:</strong> 현상 너머의 의미를 찾으려 하며, 예술적이고 철학적인 사유를 통해 세상을 이해합니다.</p>
+                    <p><strong>관계 스타일:</strong> 소수의 사람과 깊고 진실된 관계를 맺길 원하며, 말없이도 마음을 나누는 교감을 중요하게 생각합니다.</p>
+                    <p><strong>강점:</strong> 깊은 공감 능력, 뛰어난 통찰력, 예술적 감수성</p>
+                    <p><strong>주의점:</strong> 생각에 깊이 빠져 현실적인 실행이 늦어질 수 있음, 감정의 변화에 쉽게 영향을 받을 수 있음</p>
+                </div>
+                <div class="result-section">
+                    <h3>🔑 감정 키워드</h3>
+                    <p>사색 • 깊이 • 평온</p>
+                </div>
+                <div class="result-section">
+                    <h3>📍 닮은 여행지 (구미)</h3>
+                    <p><strong>채미정</strong> – 고즈넉한 자연 속에서 역사의 숨결을 느끼며 사색에 잠길 수 있는 곳. 당신의 깊은 내면과 닮았어요.</p>
+                </div>
+                <div class="result-section">
+                    <h3>💬 감정 메시지</h3>
+                    <p>“당신의 침묵 속에는, 세상의 모든 이야기가 담겨 있어요.”</p>
+                </div>
+            </div>
+            <!-- Winter Result -->
+            <div id="winter-result" class="result-container hidden">
+                <h1>❄️ 당신의 사계코드는 겨울눈꽃</h1>
+                <h2>이성과 내향성이 어우러진, 세상을 꿰뚫는 통찰가</h2>
+                <blockquote>당신의 마음은 겨울의 눈꽃 결정을 닮았어요. 복잡한 세상 속에서 명확한 원리와 구조를 발견하고, 차분한 이성으로 자신만의 길을 만들죠. 당신의 명료함이 나아갈 길을 밝힙니다.</blockquote>
+                <div class="result-section">
+                    <h3>🔍 성격 분석</h3>
+                    <p><strong>성격적 특성:</strong> 독립적이고 분석적인 사고를 하는 사람. 감정에 휘둘리기보다 객관적인 사실과 논리를 바탕으로 상황을 판단하고, 효율성을 중요하게 생각합니다.</p>
+                    <p><strong>사고방식:</strong> 체계적으로 정보를 수집하고 분석하여 원리를 파악합니다. 장기적인 관점에서 계획을 세우고 실행하는 것을 선호합니다.</p>
+                    <p><strong>관계 스타일:</strong> 지적인 대화가 가능한 관계를 편안하게 느끼며, 불필요한 감정 소모보다는 명확한 의사소통을 중시합니다.</p>
+                    <p><strong>강점:</strong> 뛰어난 분석력과 통찰력, 계획성과 전략적 사고, 독립성</p>
+                    <p><strong>주의점:</strong> 감정 표현이 서툴러 차갑다는 오해를 받을 수 있음, 지나치게 원칙을 고수하여 융통성이 부족해 보일 수 있음</p>
+                </div>
+                <div class="result-section">
+                    <h3>🔑 감정 키워드</h3>
+                    <p>이성 • 통찰 • 원칙</p>
+                </div>
+                <div class="result-section">
+                    <h3>📍 닮은 여행지 (구미)</h3>
+                    <p><strong>구미시립중앙도서관</strong> – 방대한 지식이 체계적으로 정리된 공간. 지식의 구조를 탐구하는 당신의 지적 호기심과 닮았어요.</p>
+                </div>
+                <div class="result-section">
+                    <h3>💬 감정 메시지</h3>
+                    <p>“당신의 명료한 생각은, 복잡한 세상을 푸는 열쇠예요.”</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const startScreen = document.getElementById('start-screen');
+        const questionScreen = document.getElementById('question-screen');
+        const resultScreen = document.getElementById('result-screen');
+        const startBtn = document.getElementById('start-btn');
+
+        const progressBar = document.getElementById('progress');
+        const pageNumber = document.getElementById('page-number');
+        const questionText = document.getElementById('question-text');
+        const answerButtons = document.getElementById('answer-buttons');
+
+        const questions = [
+            { question: "Q1. 혼자 있는 주말 나는 보통…", answers: ["잔잔한 음악과 차 한 잔으로 위로를 받는다", "새로운 사람을 만나 에너지를 얻는다", "읽고 싶은 책이나 자료를 정리하며 보낸다", "밀린 일이나 집안일을 계획적으로 처리한다"], types: ["autumn", "spring", "winter", "winter"] },
+            { question: "Q2. 친구가 고민을 털어놓을 때, 나는…", answers: ["말보다 마음을 먼저 공감해준다", "기분 전환을 위해 함께 외출을 제안한다", "조용히 들어주고 한참 뒤에 조언을 건넨다", "객관적인 조언을 해주며 현실을 짚어준다"], types: ["spring", "summer", "autumn", "winter"] },
+            { question: "Q3. 따뜻한 봄날 가장 끌리는 활동은?", answers: ["카페 창가에서 글을 쓰거나 노트에 기록하기", "여행 가서 사람들과 어울리기", "자연 속 산책하며 깊은 생각에 잠기기", "정원 가꾸며 하루 계획 세우기"], types: ["autumn", "spring", "autumn", "winter"] },
+            { question: "Q4. 감정이 북받칠 때 나는…", answers: ["마음이 느껴지는 노래를 반복해서 듣는다", "사람을 만나 웃고 넘기려 한다", "조용한 곳에서 내면을 정리한다", "감정을 표출하지 않도록 억제하려 한다"], types: ["autumn", "spring", "autumn", "winter"] },
+            { question: "Q5. 나에게 위로가 되는 순간은…", answers: ["누군가 진심으로 내 마음을 알아줄 때", "함께 웃고 떠드는 사람들과의 시간", "혼자만의 시간 속에서 깨달음을 얻을 때", "현실적인 조언이나 대안을 찾았을 때"], types: ["spring", "spring", "autumn", "winter"] },
+            { question: "Q6. 감정을 표현할 때 나는…", answers: ["눈빛과 표정으로 자연스럽게 표현된다", "감정에 솔직하게 말로 표현한다", "내면에 쌓아두고 나중에 꺼내본다", "감정보다 이성이 먼저 작동된다"], types: ["spring", "spring", "autumn", "winter"] },
+            { question: "Q7. 낯선 경험을 대할 때 나는…", answers: ["일단 부딪혀보며 익숙해진다", "새로운 감각을 즐기되 신중히 접근한다", "내부적으로 의미를 먼저 분석해본다", "가능성과 위험 요소를 미리 따져본다"], types: ["summer", "spring", "winter", "winter"] },
+            { question: "Q8. 여행 중 가장 기대되는 순간은?", answers: ["현지 사람들과 어울리는 즉흥적 만남", "새로운 풍경을 직접 마주하는 순간", "감정이 울리는 장소에서의 고요한 시간", "계획대로 일정이 흘러갈 때의 안정감"], types: ["spring", "summer", "autumn", "winter"] },
+            { question: "Q9. 나의 관심은 대체로…", answers: ["새로운 사람, 새로운 이야기", "변화무쌍한 트렌드나 감각적 경험", "철학적 주제나 내면의 통찰", "실용적 정보나 분석 가능한 구조"], types: ["spring", "summer", "autumn", "winter"] },
+            { question: "Q10. 주말을 보내는 나만의 방식은…", answers: ["친구들과 즉흥적으로 약속을 잡는다", "하고 싶은 것을 그날의 기분에 따라 고른다", "조용한 장소에서 생각을 정리한다", "계획한 루틴에 맞춰 하루를 쪼갠다"], types: ["spring", "summer", "autumn", "winter"] },
+            { question: "Q11. 오래 기억에 남는 장소는 어떤 곳인가요?", answers: ["함께 웃던 사람들의 소리가 머문 곳", "처음 보는 풍경에 놀라움을 느꼈던 곳", "마음 깊은 울림이 있었던 조용한 장소", "계획대로 잘 흘러간 여행지의 깔끔한 기억"], types: ["spring", "summer", "autumn", "winter"] },
+            { question: "Q12. 나를 가장 성장하게 한 경험은…", answers: ["사람과의 깊은 감정 교류", "새로운 도전과 활동", "스스로를 돌아본 내적 성찰", "체계적 훈련과 명확한 피드백"], types: ["spring", "summer", "autumn", "winter"] },
+            { question: "Q13. 조용한 산책길을 걸을 때 나는…", answers: ["함께 걷는 이의 기분을 느낀다", "풍경을 보며 사진 찍을 생각을 한다", "생각의 가지를 뻗으며 상상의 세계로 간다", "걷는 거리나 소요 시간을 의식하며 균형을 잡는다"], types: ["spring", "summer", "autumn", "winter"] },
+            { question: "Q14. 어떤 이야기에서 마음이 움직이나요?", answers: ["따뜻한 위로가 담긴 에피소드", "영화처럼 생생한 경험담", "삶에 대한 철학과 사유가 담긴 이야기", "구체적인 팁과 전략이 있는 이야기"], types: ["spring", "summer", "autumn", "winter"] },
+            { question: "Q15. 예상치 못한 상황이 생기면 나는…", answers: ["감정을 나눌 사람을 먼저 찾는다", "일단 행동하며 돌파구를 찾는다", "왜 이런 일이 생겼는지 분석해본다", "가능한 선택지를 정리하고 우선순위를 매긴다"], types: ["spring", "summer", "autumn", "winter"] },
+            { question: "Q16. 중요한 결정을 앞두고 나는…", answers: ["마음이 이끄는 쪽을 선택한다", "주변 반응과 상황을 두루 고려한다", "조용히 숙고하며 직감을 따른다", "장단점을 리스트로 정리하고 비교한다"], types: ["spring", "summer", "autumn", "winter"] }
+        ];
+
+        let currentQuestionIndex = 0;
+        const scores = {
+            spring: 0,
+            summer: 0,
+            autumn: 0,
+            winter: 0
+        };
+
+        startBtn.addEventListener('click', startQuiz);
+
+        function startQuiz() {
+            startScreen.classList.add('hidden');
+            questionScreen.classList.remove('hidden');
+            showQuestion();
+        }
+
+        function showQuestion() {
+            const currentQuestion = questions[currentQuestionIndex];
+            
+            // Update progress
+            const progressPercentage = ((currentQuestionIndex + 1) / questions.length) * 100;
+            progressBar.style.width = `${progressPercentage}%`;
+            pageNumber.textContent = `${currentQuestionIndex + 1} / ${questions.length}`;
+
+            questionText.textContent = currentQuestion.question;
+            answerButtons.innerHTML = '';
+
+            currentQuestion.answers.forEach((answer, index) => {
+                const button = document.createElement('button');
+                button.classList.add('btn');
+                button.textContent = ` ${answer}`;
+                button.addEventListener('click', () => selectAnswer(index));
+                answerButtons.appendChild(button);
+            });
+        }
+
+        function selectAnswer(index) {
+            const type = questions[currentQuestionIndex].types[index];
+            scores[type]++;
+            
+            currentQuestionIndex++;
+
+            if (currentQuestionIndex < questions.length) {
+                showQuestion();
+            } else {
+                showResult();
+            }
+        }
+
+        function showResult() {
+            questionScreen.classList.add('hidden');
+            resultScreen.classList.remove('hidden');
+
+            let maxScore = -1;
+            let resultType = '';
+
+            for (const season in scores) {
+                if (scores[season] > maxScore) {
+                    maxScore = scores[season];
+                    resultType = season;
+                }
+            }
+            
+            // In case of a tie, prioritize Spring > Summer > Autumn > Winter
+            if (scores.spring === maxScore) resultType = 'spring';
+            else if (scores.summer === maxScore) resultType = 'summer';
+            else if (scores.autumn === maxScore) resultType = 'autumn';
+            else if (scores.winter === maxScore) resultType = 'winter';
+
+
+            document.getElementById(`${resultType}-result`).classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
